@@ -1,58 +1,106 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Extended+Text&display=swap');
-*{
+
+:root {
+  --bg1: #0a0a0a;
+  --bg2: #111;
+  --grid: rgba(80, 255, 120, 0.05);
+  --accent: #6df57d; /* zacht limegroen */
+  --text: #fefefe;
+}
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-body {
-  min-height: 100vh;
-  background: #222;
-  background-image: linear-gradient(to right, #333 1px,
-    transparent 1px), linear-gradient(to bottom, #333 1px,
-      transparent 1px);
-      background-size: 40px 40px;
-      cursor: none;
+html, body {
+  height: 100%;
+  overflow: hidden;
+  cursor: none;
+  background: radial-gradient(circle at center, var(--bg1), var(--bg2));
+  background-image: linear-gradient(to right, var(--grid) 1px, transparent 1px),
+                    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 60px 60px;
+  transition: background-position 0.1s ease-out;
+}
+/* Centered content */
+main {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  user-select: none;
+  pointer-events: none;
 }
 h1 {
-  display: flex;
   font-family: 'Libre Barcode 39 Extended Text', cursive;
-  font-size: 5vh;
-  padding: 880px;
-  padding-left: 980px;
-  color: white;
+  font-size: clamp(4rem, 12vw, 10rem);
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 5px var(--accent)) drop-shadow(0 0 10px var(--accent));
+  animation: glow 3s ease-in-out infinite alternate;
 }
+
+p {
+  font-family: 'Courier New', monospace;
+  font-size: 1.2rem;
+  color: var(--text);
+  opacity: 0.8;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-top: 1rem;
+  animation: fadeIn 3s ease-in-out forwards;
+}
+
+/* Cursor styling */
 #cursor {
   position: fixed;
   width: 25px;
   height: 25px;
-  border-top: 5px solid #0f0;
-  border-left: 5px solid #0f0;
-  transform-origin: top;
-  transform: translate(-1px,5px)rotate(15deg) scale(0);
-  transition: transform 0.1s;
+  border-top: 4px solid var(--accent);
+  border-left: 4px solid var(--accent);
+  opacity: 0.85;
+  transform: translate(-50%, -50%) rotate(15deg);
   pointer-events: none;
-  animation: zztop 5s linear infinite;
+  filter: drop-shadow(0 0 3px var(--accent))
+        drop-shadow(0 0 8px var(--accent));
+
+  transition: transform 0.15s ease-out;
+  z-index: 9999;
 }
+
 #cursor::before {
-  content:'';
+  content: '';
   position: absolute;
-  left: -2.5px;
-  width: 5px;
+  left: -2px;
+  width: 4px;
   height: 40px;
-  background: #0f0;
+  background: var(--accent);
   transform-origin: top;
   transform: rotate(315deg);
 }
-body:hover #cursor
-{
-  transform: translate(-1px,5px)rotate(15deg) scale(1);
-}
 
-@keyframes zztop {
+/* Animations */
+@keyframes glow {
   0% {
-    filter: drop-shadow(0 0 5px #0f0) drop-shadow(0 0 15px #0f0) drop-shadow(0 0 30px #0f0) hue-rotate(0deg);
+    filter: drop-shadow(0 0 4px var(--accent))
+            drop-shadow(0 0 8px var(--accent));
   }
   100% {
-    filter: drop-shadow(0 0 5px #0f0) drop-shadow(0 0 15px #0f0) drop-shadow(0 0 30px #0f0) hue-rotate(360deg);
+    filter: drop-shadow(0 0 8px var(--accent))
+            drop-shadow(0 0 16px var(--accent));
   }
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  h1 { font-size: 3rem; }
+  p { font-size: 0.9rem; }
 }
