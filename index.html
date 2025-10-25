@@ -1,24 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>cursor</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UNGDOM — Interactive Cursor Experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39+Extended+Text&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>UNGDOM</h1>
+  <main>
+    <h1>UNGDOM</h1>
+    <p>Digital Youth Energy</p>
+  </main>
+
   <div id="cursor"></div>
+
   <script>
-    let cursor = document.querySelector('#cursor');
-    let body = document.querySelector('body');
-    document.addEventListener('mousemove', (e) => {
-      body.style.backgroundPositionX = e.pageX/-4 + 'px';
-      body.style.backgroundPositionY = e.pageY/-4 + 'px';
-      cursor.style.top = e.pageY + 'px';
-      cursor.style.left = e.pageX + 'px';
-    })
+    const cursor = document.getElementById("cursor");
+    const body = document.body;
+
+    // Smooth cursor tracking
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+
+    document.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animate() {
+      cursorX += (mouseX - cursorX) * 0.15;
+      cursorY += (mouseY - cursorY) * 0.15;
+      cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) rotate(15deg)`;
+
+      // Subtle background parallax
+      body.style.backgroundPosition = `${-cursorX / 15}px ${-cursorY / 15}px`;
+
+      requestAnimationFrame(animate);
+    }
+    animate();
   </script>
 </body>
 </html>
